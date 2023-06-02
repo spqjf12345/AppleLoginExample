@@ -68,7 +68,13 @@ extension ViewController: ASAuthorizationControllerDelegate {
                 let tokenString = String(data: identifyToken, encoding: .utf8)
                 
             }
-            UserDefaults.standard.set(userIdentifier, forKey: UserDefaultKey.userIdentifier)
+            if TokenManager.shared.addToken(token: userIdentifier, to: "refreshToken") {
+                let refreshToken = TokenManager.shared.getToken(with: "refreshToken")
+                print(refreshToken)
+            }else {
+                TokenManager.shared.deleteToken(with: "refreshToken")
+            }
+//            UserDefaults.standard.set(userIdentifier, forKey: UserDefaultKey.userIdentifier)
             print("\(userIdentifier) \(fullName) \(email)")
         default:
             break
